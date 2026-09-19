@@ -5,6 +5,7 @@ probarParser()
 probarOrden()
 probarVigilante()
 probarEscaner()
+probarPreferencias()
 
 if fallas > 0 {
     print("✗ \(fallas) de \(chequeos) chequeos fallaron")
