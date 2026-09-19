@@ -1,0 +1,17 @@
+name: Pruebas
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  pruebas:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: Versión de Swift
+        run: swiftc --version
+      - name: Pruebas
+        run: ./probar.sh
+      - name: Compilación
+        run: ./compilar.sh
