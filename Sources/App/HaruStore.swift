@@ -74,14 +74,18 @@ final class HaruStore: ObservableObject {
         Task { await vigilar() }
         // En modo .common siguen corriendo con el menú de la barra abierto.
         relojes = [
+            // La referencia débil se copia a una constante antes del Task:
+            // Swift 5.10 rechaza capturar la variable `self` débil adentro.
             Timer(timeInterval: 30, repeats: true) { [weak self] _ in
-                Task { @MainActor in await self?.vigilar() }
+                let store = self
+                Task { @MainActor in await store?.vigilar() }
             },
             // Solo mueve la cuenta regresiva que se ve; con el panel oculto no hace nada.
             Timer(timeInterval: 1, repeats: true) { [weak self] _ in
+                let store = self
                 Task { @MainActor in
-                    guard let self, self.panelVisible else { return }
-                    self.ahora = Date()
+                    guard let store, store.panelVisible else { return }
+                    store.ahora = Date()
                 }
             },
         ]
